@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use App\Http\Requests\AuthorRequest;
 
 class AuthorController extends Controller
 {
     public function index()
     {
         $authors = Author::paginate(3);
-        return view('authors.index', ['authors' => $authors])->with(request()->input('page'));
+        return view('authors.index', compact('authors'))->with(request()->input('page'));
     }
 
     public function create()
@@ -18,38 +19,26 @@ class AuthorController extends Controller
         return view('authors.create');
     }
 
-    public function store(Request $request)
+    public function store(AuthorRequest $request)
     {
-        $data=request()->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'biography'=>'required',
-        ]);
-
-        $newAuthor = Author::create($data);
+        $newAuthor = Author::create($request->validated());
 
         return redirect(route('author.index'))->with('success','Author added successfully');
     }
 
     public function show(Author $author)
     {
-        return view('authors.show', ['author' => $author]);
+        return view('authors.show', compact('author'));
     }
 
     public function edit(Author $author)
     {
-        return view('authors.edit', ['author' => $author]);
+        return view('authors.edit', compact('author'));
     }
 
-    public function update(Request $request, Author $author)
+    public function update(AuthorRequest $request, Author $author)
     {
-        $data= $request->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'biography'=>'required',
-        ]);
-
-        $author->update($data);
+        $author->update($request);
 
         return redirect(route('author.index'))->with('success', 'Author updated successfully');
     }

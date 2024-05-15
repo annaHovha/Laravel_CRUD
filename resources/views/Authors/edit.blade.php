@@ -6,11 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Update author's information</title>
 </head>
 <body>
 <div class="w-25 d-flex justify-content-center border border-dark mx-auto" style="height:400px;">
-    <form action="{{route('author.update', ['author' => $author])}}" method="post">
+    <form action="{{route('author.update', compact('author'))}}" method="post">
         @csrf
         @method('put')
         <input type="text" name="first_name" placeholder="First name" value="{{$author->first_name}}" class="mt-5"><br>
